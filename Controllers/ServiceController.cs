@@ -1,27 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 using TemplateTask.DataAccess;
+using TemplateTask.Models;
 using TemplateTask.ViewModels;
 
 namespace TemplateTask.Controllers
 {
     public class ServiceController : Controller
     {
-        public IActionResult Index()
+        private readonly DataContext _context;
+
+        public ServiceController(DataContext context)
         {
-            ServiceViewModel svm = new ServiceViewModel
-            {
-                ServiceFeatures = Data.ServiceFeatures
-            };
-            return View(svm);
+            _context = context;
         }
 
-        public IActionResult Details()
+        public IActionResult Index()
         {
-            ServiceViewModel svm = new ServiceViewModel
-            {
-                ServiceFeatures = Data.ServiceFeatures
-            };
-            return View(svm);
+            List<ServiceFeatures> service = _context.Service.ToList();
+            return View(service);
         }
     }
 }
